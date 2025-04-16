@@ -3,26 +3,48 @@ export async function onRequest(context) {
   const targetUrl = searchParams.get("url");
 
   if (!targetUrl) {
-    return new Response("Missing ?url= param", { status: 400 });
+    return new Response(JSON.stringify({ error: "Missing ?url= param" }), {
+      status: 400,
+      headers: corsHeaders(),
+    });
   }
 
   try {
-    const res = await fetch(targetUrl, {
+    const response = await fetch(targetUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
+                      '(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9'
+      },
+      cf: { cacheEverything: false }
+    });
+
+    const html = await response.text();
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+
+    const title = doc.querySelector('title')?.textContent || '';
+    const description = doc.querySelector('meta[name="description"]')?.content || '';
+    const image = doc.querySelector('meta[property="og:image"]')?.content || '';
+
+    return new Response(JSON.stringify({ title, description, image }), {
+      headers: {
+        ...corsHeaders(),
+        'Content-Type': 'application/json'
       }
     });
-    const html = await res.text();
-
-    return new Response(html, {
-      headers: {
-        "Content-Type": "text/html",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "*",
-      },
-    });
   } catch (e) {
-    return new Response(`Error: ${e.message}`, { status: 500 });
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: corsHeaders(),
+    });
   }
+}
+
+function corsHeaders() {
+  return {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET",
+    "Access-Control-Allow-Headers": "*",
+  };
 }
