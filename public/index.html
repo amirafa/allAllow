@@ -26,7 +26,7 @@
   </style>
 </head>
 <body>
-  <h2>🧪 Test Proxy at <code>allallow.pages.dev</code></h2>
+  <h2>🧪 Test Proxy via Cloudflare Pages</h2>
 
   <label for="url">Target URL:</label>
   <input type="text" id="url" placeholder="https://example.com" />
@@ -57,7 +57,7 @@
           return;
         }
 
-        const proxyURL = `https://allallow.pages.dev?url=${encodeURIComponent(url)}&mode=${mode}`;
+        const proxyURL = \`/?url=\${encodeURIComponent(url)}&mode=\${mode}\`;
         output.textContent = "// Loading...";
 
         try {
@@ -65,7 +65,7 @@
           const data = await res.json();
           output.textContent = JSON.stringify(data, null, 2);
         } catch (err) {
-          output.textContent = `// Error: ${err.message}`;
+          output.textContent = \`// Error: \${err.message}\`;
         }
       });
     });

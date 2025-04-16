@@ -22,8 +22,7 @@ export async function onRequest(context) {
   try {
     const response = await fetch(targetUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
-                      '(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0',
         'Accept': 'text/html',
       }
     });
@@ -52,18 +51,15 @@ export async function onRequest(context) {
 
             for (let i = 0; i < path.length; i++) {
               const part = path[i];
-
               if (i === path.length - 1) {
                 current[part] = attrs.content || '';
               } else {
                 if (typeof current[part] === 'string') {
                   current[part] = { _value: current[part] };
                 }
-
                 if (!current[part]) {
                   current[part] = {};
                 }
-
                 current = current[part];
               }
             }
@@ -79,7 +75,6 @@ export async function onRequest(context) {
       });
     }
 
-    // Default: return full HTML content
     return new Response(JSON.stringify({ content: html, status }), {
       headers: {
         ...corsHeaders(),
