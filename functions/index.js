@@ -27,13 +27,10 @@ export async function onRequest(context) {
       }
     });
 
+    const status = response.status;
     const html = await response.text();
 
-    const title = html.match(/<title>(.*?)<\/title>/i)?.[1] || '';
-    const description = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i)?.[1] || '';
-    const image = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1] || '';
-
-    return new Response(JSON.stringify({ title, description, image }), {
+    return new Response(JSON.stringify({ content: html, status }), {
       headers: {
         ...corsHeaders(),
         "Content-Type": "application/json"
