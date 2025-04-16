@@ -46,12 +46,21 @@ export async function onRequest(context) {
         if (key) {
           const path = key.split(':');
           let current = meta;
+
           for (let i = 0; i < path.length; i++) {
             const part = path[i];
+
             if (i === path.length - 1) {
               current[part] = attrs.content || '';
             } else {
-              current[part] = current[part] || {};
+              if (typeof current[part] === 'string') {
+                current[part] = { _value: current[part] };
+              }
+
+              if (!current[part]) {
+                current[part] = {};
+              }
+
               current = current[part];
             }
           }
