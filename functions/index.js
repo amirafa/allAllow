@@ -1,11 +1,20 @@
 export async function onRequest(context) {
-  const { searchParams } = new URL(context.request.url);
+  const { request } = context;
+
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: corsHeaders(),
+    });
+  }
+
+  const { searchParams } = new URL(request.url);
   const targetUrl = searchParams.get("url");
 
   if (!targetUrl) {
     return new Response(JSON.stringify({ error: "Missing ?url= param" }), {
       status: 400,
-      headers: corsHeaders()
+      headers: corsHeaders(),
     });
   }
 
@@ -34,7 +43,7 @@ export async function onRequest(context) {
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), {
       status: 500,
-      headers: corsHeaders()
+      headers: corsHeaders(),
     });
   }
 }
@@ -42,7 +51,7 @@ export async function onRequest(context) {
 function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET",
-    "Access-Control-Allow-Headers": "*"
+    "Access-Control-Allow-Methods": "GET, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
   };
 }
