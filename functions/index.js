@@ -27,10 +27,39 @@ export async function onRequest(context) {
       }
     });
 
-    const status = response.status;
     const html = await response.text();
 
-    return new Response(JSON.stringify({ content: html, status }), {
+    const meta = {};
+    const metaTagRegex = /<meta[^>]+>/gi;
+    const attrRegex = /([a-zA-Z0-9:-]+)=["']([^"']+)["']/g;
+
+    const matches = html.match(metaTagRegex);
+    if (matches) {
+      for (const tag of matches) {
+        const attrs = {};
+        let match;
+        while ((match = attrRegex.exec(tag)) !== null) {
+          attrs[match[1]] = match[2];
+        }
+
+        let key = attrs.name || attrs.property;
+        if (key) {
+          const path = key.split(':');
+          let current = meta;
+          for (let i = 0; i < path.length; i++) {
+            const part = path[i];
+            if (i === path.length - 1) {
+              current[part] = attrs.content || '';
+            } else {
+              current[part] = current[part] || {};
+              current = current[part];
+            }
+          }
+        }
+      }
+    }
+
+    return new Response(JSON.stringify(meta, null, 2), {
       headers: {
         ...corsHeaders(),
         "Content-Type": "application/json"
