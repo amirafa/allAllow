@@ -28,11 +28,10 @@ export async function onRequest(context) {
     });
 
     const html = await response.text();
-    const doc = new DOMParser().parseFromString(html, 'text/html');
 
-    const title = doc.querySelector('title')?.textContent || '';
-    const description = doc.querySelector('meta[name="description"]')?.content || '';
-    const image = doc.querySelector('meta[property="og:image"]')?.content || '';
+    const title = html.match(/<title>(.*?)<\/title>/i)?.[1] || '';
+    const description = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i)?.[1] || '';
+    const image = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1] || '';
 
     return new Response(JSON.stringify({ title, description, image }), {
       headers: {
