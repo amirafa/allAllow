@@ -13,7 +13,7 @@ You can use it to:
 
 🧪 [Test UI on GitHub Pages](https://amirafa.github.io/allAllow/)
 
-🌐 [Cloudflare Proxy Endpoint (example)](https://allallow.pages.dev/?url=https://example.com&mode=meta)
+🌐 `https://allallow.pages.dev/?url=https://example.com&mode=meta` => [link](https://allallow.pages.dev/?url=https://example.com&mode=meta)
 
 ---
 
