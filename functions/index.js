@@ -1,15 +1,23 @@
 export async function onRequest(context) {
   const { request } = context;
-  const url = new URL(request.url);
-  const searchParams = url.searchParams;
 
-  // ✅ Let static index.html handle plain root access
-  if (!searchParams.has("url")) {
-    return; // Let the Pages static file take over
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: corsHeaders(),
+    });
   }
 
+  const { searchParams } = new URL(request.url);
   const targetUrl = searchParams.get("url");
   const mode = searchParams.get("mode") || "full";
+
+  if (!targetUrl) {
+    return new Response(JSON.stringify({ error: "Missing ?url= param" }), {
+      status: 400,
+      headers: corsHeaders(),
+    });
+  }
 
   try {
     const response = await fetch(targetUrl, {
@@ -40,6 +48,7 @@ export async function onRequest(context) {
           if (key) {
             const path = key.split(':');
             let current = meta;
+
             for (let i = 0; i < path.length; i++) {
               const part = path[i];
               if (i === path.length - 1) {
@@ -59,27 +68,32 @@ export async function onRequest(context) {
       }
 
       return new Response(JSON.stringify({ meta, status }, null, 2), {
-        headers: corsHeaders("application/json")
+        headers: {
+          ...corsHeaders(),
+          "Content-Type": "application/json"
+        }
       });
     }
 
     return new Response(JSON.stringify({ content: html, status }), {
-      headers: corsHeaders("application/json")
+      headers: {
+        ...corsHeaders(),
+        "Content-Type": "application/json"
+      }
     });
 
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), {
       status: 500,
-      headers: corsHeaders("application/json"),
+      headers: corsHeaders(),
     });
   }
 }
 
-function corsHeaders(type = "application/json") {
+function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
-    "Content-Type": type
   };
 }
