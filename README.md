@@ -74,27 +74,6 @@ Response:
 }
 ```
 
----
-
-## 🧪 How to View the UI on GitHub Pages
-
-1. Push this project to a public GitHub repo
-2. Go to **Repo > Settings > Pages**
-3. Set source:
-   - Branch = `main`
-   - Folder = `/(root)`
-4. Save and GitHub will host it at:
-
-```
-https://<your-username>.github.io/<your-repo>/
-```
-
-It will serve:
-- `/` → the UI
-- `/?url=...` → the proxy function
-
----
-
 ## 🛡 CORS Support
 
 All responses include:
