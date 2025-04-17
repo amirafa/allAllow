@@ -57,7 +57,7 @@
           return;
         }
 
-        const proxyURL = `/?url=${encodeURIComponent(url)}&mode=${mode}`;
+        const proxyURL = \`/?url=\${encodeURIComponent(url)}&mode=\${mode}\`;
         output.textContent = "// Loading...";
 
         try {
@@ -65,7 +65,7 @@
           const data = await res.json();
           output.textContent = JSON.stringify(data, null, 2);
         } catch (err) {
-          output.textContent = `// Error: ${err.message}`;
+          output.textContent = \`// Error: \${err.message}\`;
         }
       });
     });
