@@ -13,7 +13,7 @@ https://amirafa.github.io/allAllow/
 
 ---
 
-## 🔧 API's usage
+## 🔧 APIs
 
 ### 🧠 Meta Tag Extraction (Default)
 
