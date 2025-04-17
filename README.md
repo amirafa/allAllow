@@ -18,7 +18,7 @@ https://amirafa.github.io/allAllow/
 ### 🧠 Meta Tag Extraction (Default)
 
 ```
-GET https://allallow.pages.dev//?url=https://example.com&mode=meta
+GET https://allallow.pages.dev/?url=https://example.com&mode=meta
 ```
 
 Response:
