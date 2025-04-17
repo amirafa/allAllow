@@ -1,6 +1,6 @@
 # 🌐 Cloudflare Proxy
 
-This project includes both a Cloudflare Pages **proxy function**
+This project includes a Cloudflare Pages **proxy function**
 
 You can use this to:
 
