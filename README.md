@@ -1,6 +1,4 @@
-# 🌐 Cloudflare Proxy with UI Demo
-
-This project includes both a Cloudflare Pages **proxy function** and a **browser-based test UI**.
+# 🌐 AllAllow (CORS Bypasser Proxy)
 
 You can use this to:
 
