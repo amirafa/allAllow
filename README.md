@@ -8,7 +8,8 @@ You can use this to:
 
 ---
 
-## 🚀 Live URLs : https://amirafa.github.io/allAllow/
+## 🚀 Live Demo
+https://amirafa.github.io/allAllow/
 
 ---
 
