@@ -8,12 +8,7 @@ You can use this to:
 
 ---
 
-## 🚀 Live URLs
-
-| Platform         | Proxy API                       | Test UI (index.html)                   |
-|------------------|----------------------------------|----------------------------------------|
-| GitHub Pages     | ❌ Not supported                 | ✅ `https://<username>.github.io/<repo>/` |
-| Cloudflare Pages | ✅ `/?url=https://...&mode=meta` | ✅ Root: `https://<project>.pages.dev/`  |
+## 🚀 Live URLs : `https://amirafa.github.io/allAllow/`
 
 ---
 
@@ -25,7 +20,8 @@ You can use this to:
 │   └── index.html          # UI to test the proxy
 ├── functions/
 │   └── index.js            # Cloudflare Functions API (meta + full)
-├── wrangler.toml           # Cloudflare Pages config
+├── wrangler.toml      # Cloudflare Pages config
+├── index.js           # UI to test the proxy
 └── README.md
 ```
 
@@ -85,26 +81,12 @@ Response:
 2. Go to **Repo > Settings > Pages**
 3. Set source:
    - Branch = `main`
-   - Folder = `/public`
+   - Folder = `/(root)`
 4. Save and GitHub will host it at:
 
 ```
 https://<your-username>.github.io/<your-repo>/
 ```
-
-⚠️ GitHub Pages only serves static files — **proxy won't work** here. For that, use Cloudflare Pages.
-
----
-
-## 🚀 Deploy to Cloudflare Pages (Functions + UI)
-
-1. Push to GitHub
-2. Go to [Cloudflare Pages](https://pages.cloudflare.com)
-3. Create a new project from your repo
-4. Set:
-   - **Build command** = (blank)
-   - **Output directory** = `public`
-   - ✅ Enable **functions**
 
 It will serve:
 - `/` → the UI
