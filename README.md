@@ -1,16 +1,19 @@
-# 🌐 Cloudflare Proxy
+# 🌐 Cloudflare Bypass CORS Proxy
 
-This project includes a Cloudflare Pages **proxy function**
+This project provides a simple **CORS-bypassing proxy** using **Cloudflare Pages Functions**.
 
-You can use this to:
+You can use it to:
 
-- ✅ Fetch the full HTML of a page (`mode=full`)
-- ✅ Extract meta tags from the page head (`mode=meta`)
+- ✅ Fetch the full HTML content of any public web page (`mode=full`)
+- ✅ Extract all structured `<meta>` tags from a page’s `<head>` (`mode=meta`)
 
 ---
 
 ## 🚀 Live Demo
-https://amirafa.github.io/allAllow/
+
+🧪 [Test UI on GitHub Pages](https://amirafa.github.io/allAllow/)
+
+🌐 [Cloudflare Proxy Endpoint (example)](https://allallow.pages.dev/?url=https://example.com&mode=meta)
 
 ---
 
@@ -22,7 +25,7 @@ https://amirafa.github.io/allAllow/
 │   └── index.js            # Cloudflare Functions API (meta + full)
 ├── wrangler.toml           # Cloudflare Pages config
 ├── README.md
-└── index.html
+└── index.html            # Test demo (requests to allallow.pages.dev)
 ```
 
 ---
@@ -32,7 +35,7 @@ https://amirafa.github.io/allAllow/
 ### 🧠 Meta Tag Extraction (Default)
 
 ```
-GET /?url=https://example.com&mode=meta
+GET https://<your-cloudflare-project>.pages.dev?url=https://example.com&mode=meta
 ```
 
 Response:
@@ -55,13 +58,13 @@ Response:
 ### 🌐 Full Page Fetch
 
 ```
-GET /?url=https://example.com
+GET https://<your-cloudflare-project>.pages.dev?url=https://example.com
 ```
 
 or
 
 ```
-GET /?url=https://example.com&mode=full
+GET https://<your-cloudflare-project>.pages.dev?url=https://example.com&mode=full
 ```
 
 Response:
