@@ -1,39 +1,24 @@
-# 🌐 AllAllow (CORS Bypasser Proxy)
+# 🌐 AllAllow (CORS Bypasser Proxy API)
 
 You can use this to:
 
-- ✅ Fetch the full HTML of a page (`mode=full`)
-- ✅ Extract meta tags from the page head (`mode=meta`)
-- ✅ View a working UI directly via **GitHub Pages** or **Cloudflare Pages**
+- ✅ Fetch the full HTML of a page
+- ✅ Extract meta tags from the page head
 
 ---
 
 ## 🚀 Live Demo
 https://amirafa.github.io/allAllow/
 
----
-
-## 📁 Folder Structure
-
-```
-/cloudflare-pages-proxy-ui
-├── public/
-│   └── index.html          # UI to test the proxy
-├── functions/
-│   └── index.js            # Cloudflare Functions API (meta + full)
-├── wrangler.toml      # Cloudflare Pages config
-├── index.js           # UI to test the proxy
-└── README.md
-```
 
 ---
 
-## 🔧 Usage
+## 🔧 API's usage
 
 ### 🧠 Meta Tag Extraction (Default)
 
 ```
-GET /?url=https://example.com&mode=meta
+GET https://allallow.pages.dev//?url=https://example.com&mode=meta
 ```
 
 Response:
@@ -56,13 +41,13 @@ Response:
 ### 🌐 Full Page Fetch
 
 ```
-GET /?url=https://example.com
+GET https://allallow.pages.dev/?url=https://example.com
 ```
 
 or
 
 ```
-GET /?url=https://example.com&mode=full
+GET https://allallow.pages.dev/?url=https://example.com&mode=full
 ```
 
 Response:
