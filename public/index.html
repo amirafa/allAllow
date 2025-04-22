@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>AllAllow</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                max-width: 800px;
+                margin: 2rem auto;
+                padding: 1rem;
+            }
+            input,
+            select,
+            button {
+                font-size: 1rem;
+                padding: 0.5rem;
+                margin: 0.5rem 0;
+                width: 100%;
+            }
+            pre {
+                background: #f0f0f0;
+                padding: 1rem;
+                border-radius: 6px;
+                white-space: pre-wrap;
+                word-break: break-word;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>🗝 AllAllow from <code> allallow.pages.dev </code></h2>
+
+        <label for="url">Target URL:</label>
+        <input type="text" id="url" placeholder="https://example.com" />
+
+        <label for="mode">Mode:</label>
+        <select id="mode">
+            <option value="full">full</option>
+            <option value="meta">meta</option>
+        </select>
+
+        <button id="fetch">Fetch</button>
+
+        <h3>Response:</h3>
+        <pre id="output">// waiting...</pre>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const fetchBtn = document.getElementById("fetch");
+                const urlInput = document.getElementById("url");
+                const modeSelect = document.getElementById("mode");
+                const output = document.getElementById("output");
+
+                fetchBtn.addEventListener("click", async () => {
+                    const url = urlInput.value.trim();
+                    const mode = modeSelect.value;
+                    if (!url) {
+                        output.textContent = "// Please enter a URL first.";
+                        return;
+                    }
+
+                    const proxyURL = `https://allallow.pages.dev?url=${encodeURIComponent(
+                        url
+                    )}&mode=${mode}`;
+                    output.textContent = "// Loading...";
+
+                    try {
+                        const res = await fetch(proxyURL);
+                        const data = await res.json();
+                        output.textContent = JSON.stringify(data, null, 2);
+                    } catch (err) {
+                        output.textContent = `// Error: ${err.message}`;
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
