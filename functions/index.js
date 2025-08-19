@@ -30,28 +30,16 @@ export async function onRequest(context) {
         const status = response.status;
         let html = await response.text();
 
-        // If the mode is 'full', clean up the HTML using HTMLRewriter
+        // If the mode is 'full', clean up the HTML
         if (mode === "full") {
-            const rewriter = new HTMLRewriter()
-                .on('*', {
-                    element(element) {
-                        let content = element.innerHTML;
-                        
-                        // Ensure content is not undefined before applying replace
-                        if (content) {
-                            // Clean up content (e.g., remove newlines, tabs, etc.)
-                            const cleanedHTML = content
-                                .replace(/\n/g, '')
-                                .replace(/\t/g, '')
-                                .replace(/\\"/g, '"'); // Unescape quotes
-                            element.setInnerContent(cleanedHTML);
-                        }
-                    },
-                });
+            // Remove unwanted newlines, tabs, and extra spaces from the entire HTML
+            html = html
+                .replace(/\n/g, '')   // Remove newlines
+                .replace(/\t/g, '')   // Remove tabs
+                .replace(/\\"/g, '"'); // Unescape quotes
 
-            // Transform the HTML using HTMLRewriter
-            const transformedResponse = await rewriter.transform(new Response(html));
-            html = await transformedResponse.text();
+            // If you want further processing (like cleaning <script> or <style> tags), 
+            // this would be a good place to do so, using regex or DOM manipulation.
         }
 
         if (mode === "meta") {
