@@ -32,10 +32,12 @@ export async function onRequest(context) {
 
         // If the mode is 'full', clean up the HTML (remove \n, \t, and escape characters)
         if (mode === "full") {
-            html = html
-                .replace(/\\n/g, "")
-                .replace(/\\t/g, "")
-                .replace(/\\"/g, '"');
+            // Parse HTML string into a DOM structure
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+
+            // Serialize the DOM back into a clean HTML string
+            html = doc.documentElement.outerHTML;
         }
 
         if (mode === "meta") {
