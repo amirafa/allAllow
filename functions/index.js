@@ -35,12 +35,17 @@ export async function onRequest(context) {
             const rewriter = new HTMLRewriter()
                 .on('*', {
                     element(element) {
-                        // Clean up content (e.g., remove newlines, tabs, etc.)
-                        const cleanedHTML = element.innerHTML
-                            .replace(/\n/g, '')
-                            .replace(/\t/g, '')
-                            .replace(/\\"/g, '"'); // Unescape quotes
-                        element.setInnerContent(cleanedHTML);
+                        let content = element.innerHTML;
+                        
+                        // Ensure content is not undefined before applying replace
+                        if (content) {
+                            // Clean up content (e.g., remove newlines, tabs, etc.)
+                            const cleanedHTML = content
+                                .replace(/\n/g, '')
+                                .replace(/\t/g, '')
+                                .replace(/\\"/g, '"'); // Unescape quotes
+                            element.setInnerContent(cleanedHTML);
+                        }
                     },
                 });
 
