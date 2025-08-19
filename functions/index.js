@@ -30,14 +30,23 @@ export async function onRequest(context) {
         const status = response.status;
         let html = await response.text();
 
-        // If the mode is 'full', clean up the HTML (remove \n, \t, and escape characters)
+        // If the mode is 'full', clean up the HTML using HTMLRewriter
         if (mode === "full") {
-            // Parse HTML string into a DOM structure
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, "text/html");
+            const rewriter = new HTMLRewriter()
+                .on('*', {
+                    element(element) {
+                        // Clean up content (e.g., remove newlines, tabs, etc.)
+                        const cleanedHTML = element.innerHTML
+                            .replace(/\n/g, '')
+                            .replace(/\t/g, '')
+                            .replace(/\\"/g, '"'); // Unescape quotes
+                        element.setInnerContent(cleanedHTML);
+                    },
+                });
 
-            // Serialize the DOM back into a clean HTML string
-            html = doc.documentElement.outerHTML;
+            // Transform the HTML using HTMLRewriter
+            const transformedResponse = await rewriter.transform(new Response(html));
+            html = await transformedResponse.text();
         }
 
         if (mode === "meta") {
