@@ -34,11 +34,12 @@ export async function onRequest(context) {
         if (mode === "full") {
             // Remove unwanted newlines, tabs, and extra spaces from the entire HTML
             html = html
-                .replace(/\n/g, '')   // Remove newlines
-                .replace(/\t/g, '')   // Remove tabs
-                .replace(/\\"/g, '"'); // Unescape quotes
+                .replace(/\n/g, "") // Remove newlines
+                .replace(/\t/g, "") // Remove tabs
+                .replace(/\\"/g, '"') // Unescape quotes
+                .replace(/\\/g, ""); // Remove all backslashes
 
-            // If you want further processing (like cleaning <script> or <style> tags), 
+            // If you want further processing (like cleaning <script> or <style> tags),
             // this would be a good place to do so, using regex or DOM manipulation.
         }
 
