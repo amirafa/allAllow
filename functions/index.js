@@ -30,16 +30,6 @@ export async function onRequest(context) {
         const status = response.status;
         let html = await response.text();
 
-        // If the mode is 'full', clean up the HTML
-        if (mode === "full") {
-            // Remove unwanted newlines, tabs, escaped characters, and backslashes
-            html = html
-                .replace(/\n/g, ' ')  // Replace newlines with a single space
-                .replace(/\t/g, ' ')  // Replace tabs with a single space
-                .replace(/\\"/g, '"') // Unescape quotes
-                .replace(/\\([\\"])/g, '$1'); // Remove backslashes
-        }
-
         if (mode === "meta") {
             const meta = {};
             const metaTagRegex = /<meta[^>]+>/gi;
